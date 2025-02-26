@@ -1,0 +1,12 @@
+@import '/styles/login.css';
+
+@media screen and (max-width: 580px) {
+    .wrapper-form {
+        height: auto;
+    }
+
+    .title-form {
+        padding-top: 20vh;
+    }
+}
+

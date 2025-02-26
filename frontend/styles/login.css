@@ -1,0 +1,41 @@
+@import '/global.css';
+
+.field {
+    padding: 10px 0;
+}
+
+.wrapper-form {
+    width: 500px;
+}
+
+
+@media screen and (max-width: 580px) {
+    body {
+        background: black;
+    }
+    .container {
+        padding: 0;
+    }
+    .wrapper-form {
+        width: 100%;
+        height: 100vh;
+    }
+    .title-form {
+        font-size: 3rem;
+        padding: 10px 0;
+    }
+    .field {
+        padding: 1.5rem 0;
+    }
+    .field label{
+        font-size: 2rem;
+    }
+    .field input {
+        padding: 1.2rem 1rem;
+        font-size: 1.5rem;
+    }
+    .field button, .field a {
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+    }
+}

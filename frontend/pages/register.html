@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/register.css">
+    <title>Register</title>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center vh-100 align-items-center">
+            <div class="wrapper-form d-flex justify-content-center align-items-center bg-black bg-gradient rounded-3">
+                <div class="form w-100 p-5">
+                    <h2 class="title-form text-center text-white">Register</h2>
+                    <div class="field">
+                        <label for="name" class="form-label text-white">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Full Name" required>
+                    </div>
+                    <div class="field">
+                        <label for="email" class="form-label text-white">E-mail</label>
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                    </div>
+                    <div class="field">
+                        <label for="password" class="form-label text-white">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="***********" required>
+                    </div>
+                    <div class="field">
+                        <label for="re_password" class="form-label text-white">Repeat Password</label>
+                        <input type="password" class="form-control" id="re_password" placeholder="***********" required>
+                    </div>
+                    <div class="field d-flex justify-content-between">
+                        <a href="/index.html" class="btn btn-light">Back</a>
+                        <button id="btn_register" class="btn btn-success">Register</button>
+                    </div>
+                    <div class="field text-center">
+                        <span id="span_message" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/scripts/register.js"></script>
+</body>
+</html>
