@@ -11,7 +11,7 @@ const spanContent = document.querySelector('#span_message')
 emailContent.addEventListener('focus', clearSpan)
 btnRegister.addEventListener('click', handlerRegister)
 
-function handlerRegister() {
+async function handlerRegister() {
     const name = nameContent.value
     if (!name) {
         spanContent.innerHTML = 'Empty name field'
@@ -36,23 +36,32 @@ function handlerRegister() {
         return
     }
 
-    // fetch('http://localhost:8080/register', {
-    //     method: 'POST',
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: JSON.stringify({name, email, password, rePassword})
-    // })
-    // .then(response => response.json())
-    // then(data => {
-    //     if (data.success) {
-    //         console.log('entrou')
-    //         localStorage.setItem('token', data)
-    //         // window.location.href = ''
-    //     } else {
-    //         spanContent;innerHTML = 'Invalid Login'
-    //     }
-    // })
+    try{
+        const response = await fetch('http://127.0.0.1:8000/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                full_name: name,
+                username: email,
+                password: password,
+                re_password: rePassword
+            })
+        })
 
-    console.log(name, email, password, rePassword)
+        if (!response.ok) {
+            throw new Error('Error registering')
+        }
+
+        const data = await response.json()
+        
+        if (data) {
+            alert('Registro criado com sucesso')
+            window.location.href = 'http://127.0.0.1:3000/index.html'
+        }
+    } catch (error) {
+        console.error('Error:', error)
+    }
+
     nameContent.value = ''
     emailContent.value = ''
     passwordContent.value = ''

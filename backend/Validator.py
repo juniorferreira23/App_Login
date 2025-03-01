@@ -5,7 +5,7 @@ def email_validator(email: str) -> bool:
         return 'Empty email field'
     regex = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
     if not bool(re.match(regex, email)):
-        return 'Invalid Email'
+        return 'Invalid email format'
     return None
 
 def password_validator(password: str, re_password: str = None) -> str|None:
@@ -13,7 +13,7 @@ def password_validator(password: str, re_password: str = None) -> str|None:
         return 'Empty passoword field'
     if re_password:
         if not re_password:
-            return 'Empty re_passoword field'
+            return 'Empty repeat passoword field'
         if password != re_password:
             return 'Different passwords'
     if len(password) < 8:
