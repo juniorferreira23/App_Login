@@ -10,7 +10,7 @@ emailContent.addEventListener('focus', clearSpan)
 btnLogin.addEventListener('click', handlerLogin)
 
 
-function handlerLogin() {
+async function handlerLogin() {
     const email = emailContent.value
     if (!isEmail(email)){
         spanContent.innerHTML = 'Invalid E-mail'
@@ -22,22 +22,30 @@ function handlerLogin() {
         return
     }
 
-    // fetch('http://localhost:8080/login', {
-    //     method: 'POST',
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: JSON.stringify({email, password})
-    // })
-    // .then(response => response.json())
-    // then(data => {
-    //     if (data.success) {
-    //         console.log('entrou')
-    //         localStorage.setItem('token', data)
-    //         // window.location.href = ''
-    //     } else {
-    //         spanContent;innerHTML = 'Invalid Login'
-    //     }
-    // })
+    const formData = new URLSearchParams()
+    formData.append('username', email)
+    formData.append('password', password)
 
+    try{
+        const response = await fetch('http://127.0.0.1:8000/token', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: formData
+        })
+
+        if (!response.ok) {
+            throw new Error('Error logging in')
+        }
+
+        const data = await response.json()
+        
+        localStorage.setItem('token', data.access_token)
+
+        window.location.href = '/pages/home.html'
+    } catch (error) {
+        console.error('Error:', error)
+    }
+    
     console.log(email, password)
     emailContent.value = ''
     passwordContent.value = ''

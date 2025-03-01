@@ -12,3 +12,26 @@ services:
       MYSQL_PASSWORD: 'mypassword'
     ports:
       - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./backend
+    container_name: fastapi_backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  frontend:
+    image: node:22.14.0-slim
+    container_name: frontend_server
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: ["http-server", "-p", "3000"]
+
+volumes:
+  mysql_data:
