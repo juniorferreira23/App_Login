@@ -10,9 +10,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from Validator import email_validator, password_validator
 from Model import Users, db
-# from bcrypt import hashpw, gensalt, checkpw
 from passlib.context import CryptContext
 from jwt.exceptions import InvalidTokenError
+
 
 load_dotenv()
 
@@ -87,36 +87,29 @@ def verify_password(plain_password, hashed_password):
 
 @app.post('/register')
 async def register_user(data: RegisterSchema) -> dict:
-    try:
-        validator = email_validator(data.username)
-        if validator:
-            raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=validator
-        )
-        validator = password_validator(data.password, data.re_password)
-        if validator:
-            raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=validator
-        )
-        exists_username = db.session.query(Users).filter(Users.username == data.username).one_or_none()
-        if exists_username:
-            raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail='Email already exists'
-        )
-        # hash_pwd = hashpw(data.password.encode(), gensalt())
-        hash_pwd = get_password_hash(data.password)
-        user = Users(full_name=data.full_name ,username=data.username, password=hash_pwd)
-        db.session.add(user)
-        db.session.commit()
-        return {'message': 'Users registered successfully'}
-    except Exception as e:
+    validator = email_validator(data.username)
+    if validator:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail='Internal server error'
-        )
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=validator
+    )
+    validator = password_validator(data.password, data.re_password)
+    if validator:
+        raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail=validator
+    )
+    exists_username = db.session.query(Users).filter(Users.username == data.username).one_or_none()
+    if exists_username:
+        raise HTTPException(
+        status_code=status.HTTP_409_CONFLICT,
+        detail='Email already exists'
+    )
+    hash_pwd = get_password_hash(data.password)
+    user = Users(full_name=data.full_name ,username=data.username, password=hash_pwd)
+    db.session.add(user)
+    db.session.commit()
+    return {'message': 'Users registered successfully'}
 
 
 @app.post('/token')
@@ -134,7 +127,6 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> T
             detail=validator
         )
     user = db.session.query(Users).filter(Users.username == form_data.username).one_or_none()
-    # if not user or not checkpw(form_data.password.encode(), user.password.encode()):
     if not user or not verify_password(form_data.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

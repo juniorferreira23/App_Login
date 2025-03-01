@@ -1,5 +1,5 @@
 import { isEmail } from "../utils/validators.js";
-import {clearSpan} from "./global.js"
+import { clearSpan } from "./global.js"
 
 const emailContent = document.querySelector('#email')
 const passwordContent = document.querySelector('#password')
@@ -12,7 +12,10 @@ btnLogin.addEventListener('click', handlerLogin)
 
 async function handlerLogin() {
     const email = emailContent.value
-    if (!isEmail(email)){
+    if (!email){
+        spanContent.innerHTML = 'Empty e-mail field'
+        return
+    } else if (!email && !isEmail(email)){
         spanContent.innerHTML = 'Invalid E-mail'
         return
     }
@@ -33,21 +36,23 @@ async function handlerLogin() {
             body: formData
         })
 
-        if (!response.ok) {
-            throw new Error('Error logging in')
-        }
-
         const data = await response.json()
+
+        if (!response.ok) {            
+            throw new Error(data.detail || 'Error logging in')
+        }
+        
+        emailContent.value = ''
+        passwordContent.value = ''
         
         localStorage.setItem('token', data.access_token)
 
         window.location.href = '/pages/home.html'
     } catch (error) {
         console.error('Error:', error)
+        spanContent.innerHTML = error.message
     }
     
-    console.log(email, password)
-    emailContent.value = ''
-    passwordContent.value = ''
+    
 }
 
