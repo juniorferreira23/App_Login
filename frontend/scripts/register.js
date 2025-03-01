@@ -1,5 +1,5 @@
 import { isEmail } from "../utils/validators.js";
-import {clearSpan} from "./global.js"
+import { clearSpan } from "./global.js"
 
 const nameContent = document.querySelector('#name')
 const emailContent = document.querySelector('#email')
@@ -19,7 +19,10 @@ async function handlerRegister() {
     }
 
     const email = emailContent.value
-    if (!isEmail(email)){
+    if (!email){
+        spanContent.innerHTML = 'Empty e-mail field'
+        return
+    } else if (!email && !isEmail(email)){
         spanContent.innerHTML = 'Invalid E-mail'
         return
     }
@@ -48,23 +51,23 @@ async function handlerRegister() {
             })
         })
 
-        if (!response.ok) {
-            throw new Error('Error registering')
-        }
-
         const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(data.detail || 'Error registering')
+        }
         
         if (data) {
+            nameContent.value = ''
+            emailContent.value = ''
+            passwordContent.value = ''
+            rePasswordContent.value = ''
+            clearSpan()
             alert('Registro criado com sucesso')
             window.location.href = 'http://127.0.0.1:3000/index.html'
         }
     } catch (error) {
         console.error('Error:', error)
+        spanContent.innerHTML = error.message
     }
-
-    nameContent.value = ''
-    emailContent.value = ''
-    passwordContent.value = ''
-    rePasswordContent.value = ''
-    clearSpan()
 }
