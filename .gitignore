@@ -1,5 +1,12 @@
 /frontend/node_modules
 /backend/venv
 /backend/__pycache__
+/backend/master.py
+/backend/core/__pycache__
+/backend/models/__pycache__
+/backend/repositories/__pycache__
+/backend/routes/__pycache__
+/backend/schemas/__pycache__
+/backend/utils/__pycache__
 anotações.txt
 task.txt

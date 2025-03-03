@@ -1,4 +1,4 @@
-import { isEmail } from "../utils/validators.js";
+import { isEmail, isFullName, isPassword } from "../utils/validators.js";
 import { clearSpan } from "./global.js"
 
 const nameContent = document.querySelector('#name')
@@ -12,9 +12,14 @@ emailContent.addEventListener('focus', clearSpan)
 btnRegister.addEventListener('click', handlerRegister)
 
 async function handlerRegister() {
-    const name = nameContent.value
-    if (!name) {
+    const full_name = nameContent.value
+    if (!full_name) {
         spanContent.innerHTML = 'Empty name field'
+        return
+    } 
+    let validator = isFullName(full_name)
+    if (validator) {
+        spanContent.innerHTML = validator
         return
     }
 
@@ -22,20 +27,16 @@ async function handlerRegister() {
     if (!email){
         spanContent.innerHTML = 'Empty e-mail field'
         return
-    } else if (!email && !isEmail(email)){
+    } else if (!isEmail(email)){
         spanContent.innerHTML = 'Invalid E-mail'
         return
     }
 
     const password = passwordContent.value
     const rePassword = rePasswordContent.value
-    if (!password || !rePassword) {
-        spanContent.innerHTML = 'Empty password field'
-        return
-    }
-    
-    if (password !== rePassword) {
-        spanContent.innerHTML = 'Invalid Passwords'
+    validator = isPassword(password, rePassword)
+    if (validator) {
+        spanContent.innerHTML = validator
         return
     }
 
@@ -44,7 +45,7 @@ async function handlerRegister() {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                full_name: name,
+                full_name: full_name,
                 username: email,
                 password: password,
                 re_password: rePassword

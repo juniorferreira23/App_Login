@@ -1,4 +1,4 @@
-import { isEmail } from "../utils/validators.js";
+import { isEmail, isPassword } from "../utils/validators.js";
 import { clearSpan } from "./global.js"
 
 const emailContent = document.querySelector('#email')
@@ -15,13 +15,14 @@ async function handlerLogin() {
     if (!email){
         spanContent.innerHTML = 'Empty e-mail field'
         return
-    } else if (!email && !isEmail(email)){
+    } else if (!isEmail(email)){
         spanContent.innerHTML = 'Invalid E-mail'
         return
     }
     const password = passwordContent.value
-    if (!password) {
-        spanContent.innerHTML = 'Empty password field'
+    let validator = isPassword(password)
+    if (validator) {
+        spanContent.innerHTML = validator
         return
     }
 

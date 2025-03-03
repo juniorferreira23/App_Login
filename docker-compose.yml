@@ -15,21 +15,23 @@ services:
 
   # Infelizmente o backend não se conecta com o db quando inicio tudo pelo docker compose,
   # quando inicio apenas o db e inicio o back na mão ele conecta normal
-  # backend:
-  #   build: ./backend
-  #   container_name: fastapi_backend
-  #   ports:
-  #     - "8000:8000"
-  #   depends_on:
-  #     - db
+  backend:
+    build: ./backend
+    container_name: fastapi_backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+    - ./backend/.env
 
-  # frontend:
-  #   build: ./frontend
-  #   container_name: frontend_server
-  #   ports:
-  #     - "8080:8080"
-  #   depends_on:
-  #     - backend
+  frontend:
+    build: ./frontend
+    container_name: frontend_server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
 
 volumes:
   mysql_data:
