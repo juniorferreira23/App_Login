@@ -1,11 +1,8 @@
-import os
-from dotenv import load_dotenv
+from config import USEDB, PASSWORD, DATABASE
 from sqlalchemy import Column, Integer, String, Boolean
-from Database import Database
+from core.database import Database
 
-load_dotenv()
-
-db = Database(os.getenv('USERDB'), os.getenv('PASSWORD'), os.getenv('DATABASE'))
+db = Database(USEDB, PASSWORD, DATABASE)
 db.connect()
 db.base()
 
