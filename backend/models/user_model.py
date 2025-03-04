@@ -1,8 +1,8 @@
-from config import USEDB, PASSWORD, DATABASE
+from config import DB_USER, DB_PASSWORD, DATABASE, DB_HOST
 from sqlalchemy import Column, Integer, String, Boolean
 from core.database import Database
 
-db = Database(USEDB, PASSWORD, DATABASE)
+db = Database(DB_USER, DB_PASSWORD, DATABASE, DB_HOST)
 db.connect()
 db.base()
 
