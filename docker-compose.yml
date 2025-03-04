@@ -1,5 +1,8 @@
 version: '3.8'
 
+networks:
+  mynetwork:
+
 services:
   db:
     image: mysql:8.0
@@ -12,9 +15,9 @@ services:
       - '3306:3306'
     volumes:
       - mysql_data:/var/lib/mysql
+    networks:
+      - mynetwork
 
-  # Infelizmente o backend não se conecta com o db quando inicio tudo pelo docker compose,
-  # quando inicio apenas o db e inicio o back na mão ele conecta normal
   backend:
     build: ./backend
     container_name: fastapi_backend
@@ -23,7 +26,9 @@ services:
     depends_on:
       - db
     env_file:
-    - ./backend/.env
+      - ./backend/.env
+    networks:
+      - mynetwork
 
   frontend:
     build: ./frontend
@@ -32,6 +37,8 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+    networks:
+      - mynetwork
 
 volumes:
   mysql_data:
