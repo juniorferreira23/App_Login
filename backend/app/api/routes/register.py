@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, status
-from schemas.register_schema import RegisterSchema
-from utils.validators import validate_register
-from repositories.user_repo import get_user_by_username
-from core.security import get_password_hash
-from models.user_model import Users, db
+from app.schemas import RegisterSchema
+from app.utils import validate_register
+from app.crud import get_user_by_username
+from app.core.security import get_password_hash
+from app.models import Users, db
 
 router = APIRouter()
 

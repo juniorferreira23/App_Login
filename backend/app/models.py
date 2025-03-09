@@ -1,6 +1,6 @@
-from config import DB_USER, DB_PASSWORD, DATABASE, DB_HOST
+from app.core.config import DB_USER, DB_PASSWORD, DATABASE, DB_HOST
 from sqlalchemy import Column, Integer, String, Boolean
-from core.database import Database
+from app.core.database import Database
 
 db = Database(DB_USER, DB_PASSWORD, DATABASE, DB_HOST)
 db.connect()

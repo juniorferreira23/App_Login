@@ -3,12 +3,12 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from schemas.token_schema import Token
-from utils.validators import validate_credentials
-from repositories.user_repo import get_user_by_username
-from core.security import verify_password
-from config import ACCESS_TOKEN_EXPIRE_MINUTES
-from core.auth import create_access_token
+from app.schemas import Token
+from app.utils import validate_credentials
+from app.crud import get_user_by_username
+from app.core.security import verify_password
+from app.core.config import ACCESS_TOKEN_EXPIRE_MINUTES
+from app.core.security import create_access_token
 
 router = APIRouter()
 

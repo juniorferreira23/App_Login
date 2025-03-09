@@ -1,21 +1,14 @@
 from typing import Annotated
-from datetime import datetime, timedelta, timezone
 
 import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from config import SECRET_KEY, ALGORITHM
-from schemas.token_schema import TokenData
+from app.core.config import SECRET_KEY, ALGORITHM
+from app.schemas import TokenData
 from jwt.exceptions import InvalidTokenError
-from repositories.user_repo import get_user_by_username
+from app.crud import get_user_by_username
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
-
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
-    to_encode = data.copy()
-    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=15))
-    to_encode.update({'exp': expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
 async def authenticate_token(token: Annotated[str, Depends(oauth2_scheme)]):

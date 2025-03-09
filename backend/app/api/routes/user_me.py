@@ -1,8 +1,8 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
-from models.user_model import Users
-from core.auth import authenticate_token
-from repositories.user_repo import get_user_by_username
+from app.models import Users
+from app.api.deps import authenticate_token
+from app.crud import get_user_by_username
 
 router = APIRouter()
 

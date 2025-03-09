@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import login, register, user_me
+from app.api.routes import login, register, user_me
 
 app = FastAPI()
 
@@ -22,7 +22,5 @@ async def root():
     return {'message': 'API is running'}
 
 app.include_router(login.router, tags=['Authetication'])
-
 app.include_router(register.router, tags=['Register'])
-
 app.include_router(user_me.router, tags=['User'])
